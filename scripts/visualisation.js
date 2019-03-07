@@ -16,7 +16,7 @@ const configSankey = {
   },
   links: {
     formatValue(val) {
-      return `${d3.format(',.0f')(val)} BBLs`;
+      return `${d3.format(',.0f')(val)} Mbls`;
     },
   },
   tooltip: {
