@@ -24,6 +24,10 @@ class App extends Component {
         id: 'CPC',
         name: 'Counterparty C',
       },
+      {
+        id: 'CPD',
+        name: 'Counterparty D',
+      },
     ];
 
     this.pipelines = [
@@ -149,6 +153,16 @@ class App extends Component {
       }
       return allocationValue;
     };
+    const getNominationValue = (pipelineId) => {
+      const trades = this.state.trades.filter(trade => trade.counterparty.id !== this.state.shipper);
+      let nominationValue = 0;
+      trades.forEach((trade) => {
+        if (trade.pipeline && trade.pipeline.id === pipelineId) {
+          nominationValue += parseInt(trade.volume);
+        }
+      });
+      return nominationValue;
+    };
 
     const nominations = this.pipelines.map((pipeline) => {
       const nomination = {
@@ -157,12 +171,8 @@ class App extends Component {
         value: 0,
         color: '#0074D9',
       };
-      this.state.trades.forEach((trade) => {
-        if (trade.pipeline && trade.pipeline.id === pipeline.id) {
-          nomination.value += parseInt(trade.volume);
-        }
-      });
 
+      nomination.value = getNominationValue(pipeline.id);
       const allocationValue = getAllocationValue(pipeline.id);
       const capacity = getCapacityValue(pipeline.source);
 
@@ -390,6 +400,16 @@ class App extends Component {
     this.setState({ ctab });
   };
 
+  handleSwitchShipper = (e) => {
+    e.preventDefault();
+    const target = e.target;
+    this.setState({
+      shipper: target.value,
+    }, () => {
+      this.updateGraph();
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -398,9 +418,23 @@ class App extends Component {
             <div className="column is-8">
               <div className="box">
                 <div className="tabs">
-                  <ul>
-                    <li className={this.state.tab === 'shipper' ? 'is-active' : ''}><a onClick={() => { this.handleTabSwitch('shipper'); }}>Supplier</a></li>
-                    <li className={this.state.tab === 'operator' ? 'is-active' : ''}><a onClick={() => { this.handleTabSwitch('operator'); }}>Operator</a></li>
+                  <ul className="tabs-ops">
+                    <li className={this.state.tab === 'shipper' ? 'is-active' : ''}>
+                      <a onClick={() => { this.handleTabSwitch('shipper'); }}>Supplier</a>
+                    </li>
+                    <li className={this.state.tab === 'operator' ? 'is-active' : ''}>
+                      <a onClick={() => { this.handleTabSwitch('operator'); }}>Operator</a>
+                    </li>
+                    <div className="shipper-selector">
+                      <span>Shipper:</span>
+                      <div className="select">
+                        <select name="counterparty" value={this.state.shipper} onChange={this.handleSwitchShipper}>
+                          {this.counterParties.map(cp => (
+                            <option value={cp.id} key={cp.id}>{cp.name}</option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
                   </ul>
                 </div>
                 {this.state.tab === 'shipper' && (
@@ -418,7 +452,7 @@ class App extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        {this.state.trades && this.state.trades.map((trade, index) => (
+                        {this.state.trades && this.state.trades.filter(trade => trade.counterparty.id !== this.state.shipper).map((trade, index) => (
                           <tr key={trade.id}>
 
                             <td>
@@ -469,7 +503,7 @@ class App extends Component {
                             <div className="select is-fullwidth">
                               <select name="counterparty" value={this.state.form.counterparty} onChange={this.handleTradeFormChange}>
                                 <option>Select Counterparty</option>
-                                {this.counterParties.map(cp => (
+                                {this.counterParties.filter(cp => cp.id !== this.state.shipper).map(cp => (
                                   <option value={cp.id} key={cp.id}>{cp.name}</option>
                                 ))}
                               </select>
@@ -494,10 +528,9 @@ class App extends Component {
                         <tr>
                           <th>Pipeline</th>
                           <th>Nominations</th>
-                          <th>Allocation (Counterparty A)</th>
-                          <th>Allocation (Counterparty B)</th>
-                          <th>Allocation (Counterparty C)</th>
-                          <th />
+                          {this.counterParties.map(cp => (
+                            <th>{cp.name}</th>
+                          ))}
                         </tr>
                       </thead>
                       <tbody>

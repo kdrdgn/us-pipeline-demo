@@ -29,3 +29,19 @@
   vertical-align: -2px;
   border:1px solid #F1F1F1;
 }
+
+.tabs-ops {
+  position: relative;
+}
+
+.shipper-selector{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.shipper-selector > span {
+  vertical-align: -5px;
+  display: inline-block;
+  margin-right: 5px;
+  font-weight: bold;
+}
