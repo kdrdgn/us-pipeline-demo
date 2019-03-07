@@ -79,7 +79,7 @@ class App extends Component {
       terminals: [
         {
           id: 0,
-          name: 'Pakota',
+          name: 'Patoka',
           totalCapacity: 200,
           color: '#0074D9',
         },
@@ -91,7 +91,7 @@ class App extends Component {
         },
         {
           id: 2,
-          name: 'Netherland-TX',
+          name: 'Nederland-TX',
           totalCapacity: 200,
           color: '#39CCCC',
         },
