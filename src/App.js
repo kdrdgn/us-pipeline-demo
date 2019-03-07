@@ -422,7 +422,7 @@ class App extends Component {
                 <div className="tabs">
                   <ul className="tabs-ops">
                     <li className={this.state.tab === 'shipper' ? 'is-active' : ''}>
-                      <a onClick={() => { this.handleTabSwitch('shipper'); }}>Supplier</a>
+                      <a onClick={() => { this.handleTabSwitch('shipper'); }}>Shipper</a>
                     </li>
                     <li className={this.state.tab === 'operator' ? 'is-active' : ''}>
                       <a onClick={() => { this.handleTabSwitch('operator'); }}>Operator</a>
