@@ -517,28 +517,28 @@ sk.createSankey = function(containerId, configSankey, dataSankey) {
         var linksTo = d.sourceLinks;
         var html;
 
-        html = '<div class="table-wrapper">' +
-            '<center><h1>' + nodeName + '</h1></center>' +
-            '<table>';
-        if (linksFrom.length > 0 & linksTo.length > 0) {
-            html += '<tr><td><h2>' + configSankey.tooltip.labelSource + '</h2></td><td></td></tr>'
-        }
-        for (i = 0; i < linksFrom.length; ++i) {
-            html += '<tr>' +
-                '<td class="col-left">' + linksFrom[i].source.name + '</td>' +
-                '<td align="right">' + _formatValueTooltip(linksFrom[i].value) + '</td>' +
-                '</tr>';
-        }
-        if (linksFrom.length > 0 & linksTo.length > 0) {
-            html += '<tr><td></td><td></td><tr><td></td><td></td> </tr><tr><td><h2>' + configSankey.tooltip.labelTarget + '</h2></td><td></td></tr>'
-        }
-        for (i = 0; i < linksTo.length; ++i) {
-            html += '<tr>' +
-                '<td class="col-left">' + linksTo[i].target.name + '</td>' +
-                '<td align="right">' + _formatValueTooltip(linksTo[i].value) + '</td>' +
-                '</tr>';
-        }
-        html += '</table></div>';
+      html = '<div class="table-wrapper">' +
+        '<h1 style="text-align: center">' + nodeName + '</h1>' +
+        '<table>';
+      if (linksFrom.length > 0 & linksTo.length > 0) {
+        html += '<tr><td><h2>' + configSankey.tooltip.labelSource + '</h2></td><td></td></tr>'
+      }
+      for (i = 0; i < linksFrom.length; ++i) {
+        html += '<tr>' +
+          '<td class="col-left" style="text-transform: capitalize">' + linksFrom[i].ltype + '</td>' +
+          '<td align="right">' + _formatValueTooltip(linksFrom[i].value) + '</td>' +
+          '</tr>';
+      }
+      if (linksFrom.length > 0 & linksTo.length > 0) {
+        html += '<tr><td></td><td></td><tr><td></td><td></td> </tr><tr><td><h2>' + configSankey.tooltip.labelTarget + '</h2></td><td></td></tr>'
+      }
+      for (i = 0; i < linksTo.length; ++i) {
+        html += '<tr>' +
+          '<td class="col-left" style="text-transform: capitalize">' + linksTo[i].ltype + '</td>' +
+          '<td align="right">' + _formatValueTooltip(linksTo[i].value) + '</td>' +
+          '</tr>';
+      }
+      html += '</table></div>';
         return html;
     });
     tipNodes.move = function(event) {
