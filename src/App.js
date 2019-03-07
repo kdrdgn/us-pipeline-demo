@@ -196,6 +196,7 @@ class App extends Component {
       }
 
       const allocation = {
+        ltype: 'allocation',
         ...pipeline,
         value: allocationValue,
         id: `${pipeline.id}-allocation`,
@@ -230,6 +231,7 @@ class App extends Component {
       }
       console.log('SPARE', pipeline.name, 'alloc', allocationValue, 'nom', nomination.value, 'spare', spareValue, 'capacity', capacity);
       return {
+        ltype: 'spare',
         ...pipeline,
         value: spareValue,
         id: `${pipeline.id}-spare`,
