@@ -245,7 +245,7 @@ class App extends Component {
       nodes,
       links,
     };
-    console.log('graphData', graphData);
+    console.log('graph-data', graphData);
     this.graphContainer.setAttribute('data-init', JSON.stringify(graphData));
     if (reload) {
       this.graphContainer.setAttribute('data-reload', new Date().getTime());
